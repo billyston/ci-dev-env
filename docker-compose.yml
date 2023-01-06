@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+
+    #MySQL Database Service
+    mysql:
+        image: 'mysql:8.0'
+        container_name: ${ENV_NAME}-mysql
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./Mysql/mysql:/var/lib/mysql
+        ports:
+            - "${MS_PORT}:${MS_PORT}"
+        environment:
+            MYSQL_ROOT_USER: ${ROOT_USER}
+            MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+    #MySQL Web Administration Services
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: ${ENV_NAME}-phpmyadmin
+        restart: always
+        ports:
+          - "6060:80"
+        depends_on:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        volumes:
+          - ./Mysql/phpmyadmin:/var/lib/mysql
+
+    #Postgres Database Service
+    postgres:
+        image: postgres:latest
+        container_name: ${ENV_NAME}-postgres
+        restart: always
+        expose:
+            - "${PG_PORT}"
+        command: -p "${PG_PORT}"
+        ports:
+            - "${PG_PORT}:${PG_PORT}"
+        volumes:
+            - ./Postgres/postgres:/var/lib/postgresql/data
+        environment:
+          POSTGRES_USER: ${ROOT_USER}
+          POSTGRES_PASSWORD: ${ROOT_PASSWORD}
+          POSTGRES_HOST_AUTH_METHOD: "trust"
+          PGDATA: /var/lib/postgresql/data/default/
+
+    #Postgres Web Administration Services
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: ${ENV_NAME}-pgadmin
+        restart: always
+        ports:
+            - "5050:5050"
+        depends_on:
+          - postgres
+        environment:
+          PGADMIN_DEFAULT_EMAIL: '${ROOT_EMAIL}'
+          PGADMIN_DEFAULT_PASSWORD: '${ROOT_PASSWORD}'
+          PGADMIN_LISTEN_PORT: 5050
+        volumes:
+            - ./Postgres/pgadmin:/var/lib/pgadmin
