@@ -75,5 +75,5 @@ services:
             - "5672:5672"
             - "15672:15672"
         volumes:
-            - ./RabbitMQ/rabbitmq/data:/var/lib/rabbitmq/
-            - ./RabbitMQ/rabbitmq/logs:/var/log/rabbitmq/
+            - ./RabbitMQ/data:/var/lib/rabbitmq/
+            - ./RabbitMQ/logs:/var/log/rabbitmq/
