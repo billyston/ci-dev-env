@@ -1,0 +1,8 @@
+.DS_Store
+.env
+/.idea
+/mysql/
+/pgadmin/
+/phpmyadmin/
+/postgres/
+/rabbitmq/
