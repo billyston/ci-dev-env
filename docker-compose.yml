@@ -88,5 +88,15 @@ services:
         networks:
             - ci-dev-env
 
+    # Redis Service
+    redis:
+        image: redis:6.2.5-alpine
+        container_name: ${ENV_NAME}-redis
+        platform: linux/x86_64
+        volumes:
+            - ./redis/data:/data
+        ports:
+            - 63790:6379
+
 networks:
     ci-dev-env:
