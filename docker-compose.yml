@@ -96,7 +96,7 @@ services:
         volumes:
             - ./redis/data:/data
         ports:
-            - 63790:6379
+            - "${REDIS_PORT}:6379"
 
 networks:
     ci-dev-env:
