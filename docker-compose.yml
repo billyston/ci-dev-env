@@ -3,78 +3,78 @@ version: '3.9'
 services:
 
     #MySQL Database Service
-#    mysql:
-#        image: mysql:latest
-#        container_name: ${ENV_NAME}-mysql
-#        restart: always
-#        ports:
-#            - "${MS_PORT}:3306"
-#        volumes:
-#            - ./mysql:/var/lib/mysql
-#        environment:
-#            MYSQL_PASSWORD: ${ROOT_PASSWORD}
-#            MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
-#            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-#        networks:
-#            - ci-dev-env
+    mysql:
+        image: mysql:latest
+        container_name: ${ENV_NAME}-mysql
+        restart: always
+        ports:
+            - "${MS_PORT}:3306"
+        volumes:
+            - ./mysql:/var/lib/mysql
+        environment:
+            MYSQL_PASSWORD: ${ROOT_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        networks:
+            - ci-dev-env
 
     #MySQL Web Administration Services
-#    phpmyadmin:
-#        image: phpmyadmin
-#        container_name: ${ENV_NAME}-phpmyadmin
-#        restart: always
-#        ports:
-#            - "${PHPMYADMIN_PORT}:80"
-#        environment:
-#            PMA_USER: ${ROOT_USER}
-#            PMA_PASSWORD: ${ROOT_PASSWORD}
-#            PMA_HOST: mysql
-#            PMA_PORT: 3306
-#        volumes:
-#            - ./phpmyadmin:/var/lib/mysql
-#        depends_on:
-#            - mysql
-#        networks:
-#            - ci-dev-env
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: ${ENV_NAME}-phpmyadmin
+        restart: always
+        ports:
+            - "${PHPMYADMIN_PORT}:80"
+        environment:
+            PMA_USER: ${ROOT_USER}
+            PMA_PASSWORD: ${ROOT_PASSWORD}
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+        volumes:
+            - ./phpmyadmin:/var/lib/mysql
+        depends_on:
+            - mysql
+        networks:
+            - ci-dev-env
 
     #Postgres Database Service
-#    postgres:
-#        image: postgres:latest
-#        container_name: ${ENV_NAME}-postgres
-#        restart: unless-stopped
-#        tty: true
-#        ports:
-#            - "${PG_PORT}:5432"
-#        expose:
-#            - "5432"
-#        volumes:
-#            - ./postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
-#            - ./postgres:/var/lib/postgresql/data
-#        environment:
-#            POSTGRES_USER: ${ROOT_USER}
-#            POSTGRES_PASSWORD: ${ROOT_PASSWORD}
-#            PGDATA: /var/lib/postgresql/data/default
-#        networks:
-#            - ci-dev-env
+    postgres:
+        image: postgres:latest
+        container_name: ${ENV_NAME}-postgres
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "${PG_PORT}:5432"
+        expose:
+            - "5432"
+        volumes:
+            - ./postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+            - ./postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: ${ROOT_USER}
+            POSTGRES_PASSWORD: ${ROOT_PASSWORD}
+            PGDATA: /var/lib/postgresql/data/default
+        networks:
+            - ci-dev-env
 
     #Postgres Web Administration Services
-#    pgadmin:
-#        image: dpage/pgadmin4
-#        container_name: ${ENV_NAME}-pgadmin
-#        restart: always
-#        ports:
-#            - "${PGADMIN_PORT}:5434"
-#        depends_on:
-#            - postgres
-#        environment:
-#            PGADMIN_DEFAULT_EMAIL: '${ROOT_EMAIL}'
-#            PGADMIN_DEFAULT_PASSWORD: '${ROOT_PASSWORD}'
-#            PGADMIN_DEFAULT_HOST: postgres
-#            PGADMIN_LISTEN_PORT: 5434
-#        volumes:
-#            - ./pgadmin:/var/lib/pgadmin
-#        networks:
-#            - ci-dev-env
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: ${ENV_NAME}-pgadmin
+        restart: always
+        ports:
+            - "${PGADMIN_PORT}:5434"
+        depends_on:
+            - postgres
+        environment:
+            PGADMIN_DEFAULT_EMAIL: '${ROOT_EMAIL}'
+            PGADMIN_DEFAULT_PASSWORD: '${ROOT_PASSWORD}'
+            PGADMIN_DEFAULT_HOST: postgres
+            PGADMIN_LISTEN_PORT: 5434
+        volumes:
+            - ./pgadmin:/var/lib/pgadmin
+        networks:
+            - ci-dev-env
 
     #RabbitMQ Services
     rabbitmq:
